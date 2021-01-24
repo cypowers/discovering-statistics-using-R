@@ -52,5 +52,8 @@ bar <- ggplot(chickFlick, aes(film, arousal, fill = gender))
 bar + stat_summary(fun = mean, geom = "bar", position="dodge")
 bar + stat_summary(fun = mean, geom = "bar", position="dodge") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", position = position_dodge(width=0.90), width=0.2) + labs( x = "Film", y = "Mean Arousal", fill = "Gender")
 
+bar + stat_summary(fun = mean, geom = "bar", position="dodge") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", position = position_dodge(width=0.90), width=0.2) + labs( x = "Film", y = "Mean Arousal", fill = "Gender")  + scale_fill_manual("Gender",values = c("Female" = "Blue", "Male" = "Green"))
+
 bar <- ggplot(chickFlick, aes(film, arousal, fill = film))
+bar + stat_summary(fun = mean, geom = "bar") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.2) + facet_wrap(~ gender) + labs( x = "Film", y = "Mean Arousal") + theme(legend.position = "")
 bar + stat_summary(fun = mean, geom = "bar") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.2) + facet_wrap(~ gender) + labs( x = "Film", y = "Mean Arousal") + theme(legend.position = "")
