@@ -52,8 +52,29 @@ bar <- ggplot(chickFlick, aes(film, arousal, fill = gender))
 bar + stat_summary(fun = mean, geom = "bar", position="dodge")
 bar + stat_summary(fun = mean, geom = "bar", position="dodge") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", position = position_dodge(width=0.90), width=0.2) + labs( x = "Film", y = "Mean Arousal", fill = "Gender")
 
-bar + stat_summary(fun = mean, geom = "bar", position="dodge") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", position = position_dodge(width=0.90), width=0.2) + labs( x = "Film", y = "Mean Arousal", fill = "Gender")  + scale_fill_manual("Gender",values = c("Female" = "Blue", "Male" = "Green"))
+bar + stat_summary(fun = mean, geom = "bar", position="dodge") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", position = position_dodge(width=0.90), width=0.2) + labs( x = "Film", y = "Mean Arousal", fill = "Gender")  + scale_fill_manual("gender",values = c( 'Female' = "green", "Male" = "blue"))
 
 bar <- ggplot(chickFlick, aes(film, arousal, fill = film))
 bar + stat_summary(fun = mean, geom = "bar") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.2) + facet_wrap(~ gender) + labs( x = "Film", y = "Mean Arousal") + theme(legend.position = "")
-bar + stat_summary(fun = mean, geom = "bar") + stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.2) + facet_wrap(~ gender) + labs( x = "Film", y = "Mean Arousal") + theme(legend.position = "")
+
+# 4.9.2 선 그래프 p197
+# 4.9.2.1 독립변수 하나에 대한 선 그래프
+hiccupsData <- read.delim("data/Hiccups.dat", header = TRUE)
+hiccups <- stack(hiccupsData)
+names(hiccups) <- c("Hiccups", "Intervention")
+hiccups$Intervention_Factor <- factor(hiccups$Intervention, levels(hiccups$Intervention))
+line <- ggplot(hiccups, aes(Intervention_Factor, Hiccups))
+line + stat_summary(fun = mean, geom = "point")
+line + stat_summary(fun = mean, geom = "line", aes(group = 1))
+line + stat_summary(fun = mean, geom = "line", aes(group = 1), colour = "Blue", linetype = "dashed")
+line + stat_summary(fun = mean, geom = "line", aes(group = 1), colour = "Blue", linetype = "dashed") + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2) + labs( x = "Intervention", y = "Mean Number of Hiccups")
+
+# 4.9.2.2 여러 독립변수에 대한 선 그래프
+textData <- read.delim("data/TextMessages.dat", header = TRUE)
+textMessages <- melt(textData, id=c("Group"), measured = c("Baseline", "Six_months"))
+textMessages <- melt(textData, id=c("Group"), measured = c("Baseline", "Six_months"), variable.name = "Time", value.name = "Grammar_Score")
+#names(textMessages) <- c("Group", "Time", "Grammar_Score")
+#textMessages$Time <- factor(textMessages$Time, levels(textMessages$Time))
+textMessages$Time <- factor(textMessages$Time, levels(textMessages$Time), labels=c("Baseline", "6_months"))
+line <- ggplot(textMessages, aes(Time, Grammar_Score, colour = Group))
+line + stat_summary(fun = mean, geom = 'point') + stat_summary(fun = mean, geom = "line", aes(group = Group)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2) + labs( x = "Time", y = "Mean Grammer Score", colour = "Group")
