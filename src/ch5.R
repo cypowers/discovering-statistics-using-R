@@ -35,3 +35,23 @@ stat.desc(cbind(dlf$day1, dlf$day2, dlf$day3), basic = FALSE, norm = TRUE)
 describe(dlf[, c("day1", "day2", "day3")])
 stat.desc(dlf[, c("day1", "day2", "day3")], basic = FALSE, norm = TRUE)
 round(stat.desc(dlf[, c("day1", "day2", "day3")], basic = FALSE, norm = TRUE), digits = 3)
+
+# 5.5.3 자료 그룹들을 다루기
+# 
+# 5.5.3.1 자료 전체의 분석석
+rexam <- read.delim("data/RExam.dat", header = TRUE)
+rexam$uni <- factor(rexam$uni, levels = c(0:1), labels = c("Duncetown University", "Sussex University"))
+describe(rexam[, c("exam", "computer", "lectures", "numeracy")])
+round(stat.desc(rexam[, c("exam", "computer", "lectures", "numeracy")], basic = FALSE, norm = TRUE), 3)
+
+hist.exam <- ggplot( rexam, aes(exam)) + theme( legend.position = "none" ) + geom_histogram( aes( y = ..density..), colour = "black", fill = "white" ) + labs( x = "First Year Exam Score", y = "Density" )
+hist.exam + stat_function(fun = dnorm, args = list( mean = mean(rexam$exam, na.rm = TRUE), sd = sd(rexam$exam, na.rm = TRUE)), colour = "black", size = 1)
+
+hist.computer <- ggplot( rexam, aes(computer)) + theme( legend.position = "none" ) + geom_histogram( aes( y = ..density..), colour = "black", fill = "white" ) + labs( x = "Computer Literacy", y = "Density" )
+hist.computer + stat_function(fun = dnorm, args = list( mean = mean(rexam$computer, na.rm = TRUE), sd = sd(rexam$computer, na.rm = TRUE)), colour = "black", size = 1)
+
+hist.lectures <- ggplot( rexam, aes(lectures)) + theme( legend.position = "none" ) + geom_histogram( aes( y = ..density..), colour = "black", fill = "white" ) + labs( x = "Percentage of Lectures Attended", y = "Density" )
+hist.lectures + stat_function(fun = dnorm, args = list( mean = mean(rexam$lectures, na.rm = TRUE), sd = sd(rexam$lectures, na.rm = TRUE)), colour = "black", size = 1)
+
+hist.numeracy <- ggplot( rexam, aes(numeracy)) + theme( legend.position = "none" ) + geom_histogram( aes( y = ..density..), colour = "black", fill = "white" ) + labs( x = "Numeracy", y = "Density" )
+hist.numeracy + stat_function(fun = dnorm, args = list( mean = mean(rexam$numeracy, na.rm = TRUE), sd = sd(rexam$numeracy, na.rm = TRUE)), colour = "black", size = 1)
