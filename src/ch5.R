@@ -55,3 +55,33 @@ hist.lectures + stat_function(fun = dnorm, args = list( mean = mean(rexam$lectur
 
 hist.numeracy <- ggplot( rexam, aes(numeracy)) + theme( legend.position = "none" ) + geom_histogram( aes( y = ..density..), colour = "black", fill = "white" ) + labs( x = "Numeracy", y = "Density" )
 hist.numeracy + stat_function(fun = dnorm, args = list( mean = mean(rexam$numeracy, na.rm = TRUE), sd = sd(rexam$numeracy, na.rm = TRUE)), colour = "black", size = 1)
+
+# 5.5.3.2 그룹별 분석
+by(data = rexam$exam, INDICES = rexam$uni, FUN = describe)
+by(data = rexam$exam, INDICES = rexam$uni, FUN = stat.desc, basic = FALSE, norm = TRUE)
+by(data = rexam$exam, rexam$uni, describe)
+by(data = rexam$exam, rexam$uni, stat.desc)
+by(cbind(data = rexam$exam, data = rexam$numeracy), rexam$uni, describe)
+by(cbind(rexam$exam, rexam$numeracy), rexam$uni, describe)
+by(rexam[, c("exam", "numeracy")], rexam$uni, describe)
+
+dunceData <- subset(rexam, rexam$uni=="Duncetown University")
+sussexData <- subset(rexam, rexam$uni=="Sussex University")
+
+hist.numeracy.duncetown <- ggplot(dunceData, aes(numeracy)) + theme(legend.position = "none") + geom_histogram(aes(y = ..density..), fill = "white", colour = "black", binwidth = 1) + labs(x = "Numeracy Score", y = "Density") + stat_function(fun = dnorm, args=list(mean = mean(dunceData$numeracy, na.rm = TRUE), sd = sd(dunceData$numeracy, na.rm = TRUE)), colour = "blue", size = 1)
+hist.numeracy.duncetown
+
+hist.numeracy.sussextown <- ggplot(sussexData, aes(numeracy)) + theme(legend.position = "none") + geom_histogram(aes(y = ..density..), fill = "white", colour = "black", binwidth = 1) + labs(x = "Numeracy Score", y = "Density") + stat_function(fun = dnorm, args=list(mean = mean(sussexData$numeracy, na.rm = TRUE), sd = sd(sussexData$numeracy, na.rm = TRUE)), colour = "blue", size = 1)
+hist.numeracy.sussextown
+
+hist.exam.duncetown <- ggplot(dunceData, aes(exam)) + theme(legend.position = "none") + geom_histogram(aes(y = ..density..), fill = "white", colour = "black", binwidth = 1) + labs(x = "Exam Score", y = "Density") + stat_function(fun = dnorm, args=list(mean = mean(dunceData$exam, na.rm = TRUE), sd = sd(dunceData$exam, na.rm = TRUE)), colour = "blue", size = 1)
+hist.exam.duncetown
+
+hist.exam.sussextown <- ggplot(sussexData, aes(exam)) + theme(legend.position = "none") + geom_histogram(aes(y = ..density..), fill = "white", colour = "black", binwidth = 1) + labs(x = "Exam Score", y = "Density") + stat_function(fun = dnorm, args=list(mean = mean(sussexData$exam, na.rm = TRUE), sd = sd(sussexData$exam, na.rm = TRUE)), colour = "blue", size = 1)
+hist.exam.sussextown
+
+hist.computer.duncetown <- ggplot(dunceData, aes(computer)) + theme(legend.position = "none") + geom_histogram(aes(y = ..density..), fill = "white", colour = "black", binwidth = 1) + labs(x = "Computer Score", y = "Density") + stat_function(fun = dnorm, args=list(mean = mean(dunceData$computer, na.rm = TRUE), sd = sd(dunceData$computer, na.rm = TRUE)), colour = "blue", size = 1)
+hist.computer.duncetown
+
+hist.computer.sussextown <- ggplot(sussexData, aes(computer)) + theme(legend.position = "none") + geom_histogram(aes(y = ..density..), fill = "white", colour = "black", binwidth = 1) + labs(x = "Computer Score", y = "Density") + stat_function(fun = dnorm, args=list(mean = mean(sussexData$computer, na.rm = TRUE), sd = sd(sussexData$computer, na.rm = TRUE)), colour = "blue", size = 1)
+hist.numeracy.sussextown
