@@ -85,3 +85,13 @@ hist.computer.duncetown
 
 hist.computer.sussextown <- ggplot(sussexData, aes(computer)) + theme(legend.position = "none") + geom_histogram(aes(y = ..density..), fill = "white", colour = "black", binwidth = 1) + labs(x = "Computer Score", y = "Density") + stat_function(fun = dnorm, args=list(mean = mean(sussexData$computer, na.rm = TRUE), sd = sd(sussexData$computer, na.rm = TRUE)), colour = "blue", size = 1)
 hist.numeracy.sussextown
+
+# 5.6.1 R에서 샤피로-윌크 검정 실행하기
+shapiro.test(rexam$exam)
+shapiro.test(rexam$numeracy)
+by(rexam$exam, rexam$uni, shapiro.test)
+by(rexam$numeracy, rexam$uni, shapiro.test)
+# Q-Q Plot
+ggplot(rexam, aes(sample=rexam$exam)) + stat_qq()
+ggplot(rexam, aes(sample=rexam$numeracy)) + stat_qq()
+
