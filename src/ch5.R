@@ -95,3 +95,9 @@ by(rexam$numeracy, rexam$uni, shapiro.test)
 ggplot(rexam, aes(sample=rexam$exam)) + stat_qq()
 ggplot(rexam, aes(sample=rexam$numeracy)) + stat_qq()
 
+# 5.7 분산의 동질성 검정
+# 5.7.1.2 R을 이용한 레빈 검정 실행
+install.package("car")
+library(car)
+leveneTest(rexam$exam, rexam$uni)
+leveneTest(rexam$numeracy, rexam$uni)
