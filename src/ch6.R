@@ -14,3 +14,16 @@ library(boot)
 library(ggm)
 library(Hmisc)
 library(polycor)
+
+# 6.5.3 R로 상관분석 수행하는 일반적인 절차
+examData <- read.delim("data/Exam Anxiety.dat", header = TRUE)
+cor(examData, use = "complete.obs", method = "pearson") # 오류
+# 피어슨
+cor(examData$Exam, examData$Anxiety, use = "complete.obs", method = "pearson")
+# 켄달
+cor(examData$Exam, examData$Anxiety, use = "complete.obs", method = "kendall")
+# 결측값 처리 방식 지정 및 쌍별 결측값 제거 사용
+cor(examData$Exam, examData$Anxiety, use = "pairwise.complete", method = "kendall")
+
+cor.test(examData$Exam, examData$Anxiety, method = "pearson")
+cor.test(examData$Exam, examData$Anxiety, alternative = "less", method = "pearson")
